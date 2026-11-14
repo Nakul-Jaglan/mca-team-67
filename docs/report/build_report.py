@@ -373,7 +373,7 @@ contrib = [
      f"{REPO}/commit/24451ba."),
     ("Sudeshhna Behera",
      "Wrote this IEEE report (`docs/report/`) and drew the architecture block diagram with its editable source "
-     "(`docs/diagrams/harvard-architecture.svg`). PR: {REPO}/pull/1."),
+     f"(`docs/diagrams/harvard-architecture.svg`). PR: {REPO}/pull/1."),
     ("Neelanshu",
      "Instruction ROM (`rtl/instr_rom.v`), data RAM (`rtl/data_ram.v`), memory tests and synthesis evidence. "
      "{{[Pending: one-line summary of actual work and commit/PR link.]}}"),
