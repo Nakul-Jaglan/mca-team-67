@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Harvard prototype block diagram (Project 9, Phase I).
+  Editable source. Owner: Sudeshhna. Signal names follow docs/interface.md.
+  Export: python3 docs/diagrams/export_diagram.py  (writes PNG and PDF next to this file)
+-->
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="760" viewBox="0 0 1000 760"
+     font-family="Helvetica, Arial, sans-serif">
+  <defs>
+    <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#1f2937"/>
+    </marker>
+    <marker id="ahb" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#0f766e"/>
+    </marker>
+    <marker id="ahr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#b45309"/>
+    </marker>
+    <marker id="ahg" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#6b7280"/>
+    </marker>
+  </defs>
+
+  <rect width="1000" height="760" fill="#ffffff"/>
+
+  <!-- Title -->
+  <text x="500" y="30" text-anchor="middle" font-size="19" font-weight="bold" fill="#111827">harvard_top: split instruction and data paths</text>
+
+  <!-- Top-level outputs -->
+  <line x1="595" y1="80" x2="595" y2="50" stroke="#1f2937" stroke-width="2" marker-end="url(#ah)"/>
+  <text x="605" y="60" font-size="13" fill="#1f2937">acc[15:0], halted (top-level outputs)</text>
+
+  <!-- ============ Instruction ROM ============ -->
+  <rect x="12" y="110" width="200" height="270" rx="8" fill="#ecfdf5" stroke="#0f766e" stroke-width="2.5"/>
+  <text x="112" y="138" text-anchor="middle" font-size="17" font-weight="bold" fill="#0f766e">Instruction ROM</text>
+  <text x="112" y="157" text-anchor="middle" font-size="13" fill="#374151">instr_rom (read-only)</text>
+  <text x="112" y="178" text-anchor="middle" font-size="14" font-weight="bold" fill="#111827">16 × 16-bit words</text>
+  <text x="112" y="196" text-anchor="middle" font-size="11.5" fill="#374151">index 0–15, combinational read</text>
+  <g font-family="Menlo, Courier New, monospace" font-size="13" fill="#111827">
+    <text x="32" y="224">0: 3005  ADDI 5</text>
+    <text x="32" y="243">1: 2300  STORE [3]</text>
+    <text x="32" y="262">2: 1300  LOAD [3]</text>
+    <text x="32" y="281">3: 3001  ADDI 1</text>
+    <text x="32" y="300">4: F000  HALT</text>
+    <text x="32" y="319">5–15: F000</text>
+  </g>
+  <text x="112" y="360" text-anchor="middle" font-size="12" font-style="italic" fill="#374151">no clock: data follows i_addr</text>
+
+  <!-- ============ Controller ============ -->
+  <rect x="320" y="80" width="360" height="330" rx="10" fill="#f9fafb" stroke="#1f2937" stroke-width="2.5"/>
+  <text x="500" y="104" text-anchor="middle" font-size="17" font-weight="bold" fill="#111827">Controller (control)</text>
+
+  <!-- PC -->
+  <rect x="340" y="120" width="140" height="62" rx="6" fill="#ffffff" stroke="#0f766e" stroke-width="2"/>
+  <text x="410" y="145" text-anchor="middle" font-size="15" font-weight="bold" fill="#0f766e">PC [3:0]</text>
+  <text x="410" y="166" text-anchor="middle" font-size="12" fill="#374151">+1 on each fetch</text>
+
+  <!-- IR -->
+  <rect x="340" y="228" width="140" height="62" rx="6" fill="#ffffff" stroke="#0f766e" stroke-width="2"/>
+  <text x="410" y="253" text-anchor="middle" font-size="15" font-weight="bold" fill="#0f766e">IR [15:0]</text>
+  <text x="410" y="274" text-anchor="middle" font-size="12" fill="#374151">+ ir_valid</text>
+
+  <!-- Decode -->
+  <rect x="520" y="120" width="140" height="170" rx="6" fill="#ffffff" stroke="#1f2937" stroke-width="2"/>
+  <text x="590" y="145" text-anchor="middle" font-size="15" font-weight="bold" fill="#111827">Decode</text>
+  <text x="590" y="165" text-anchor="middle" font-size="12" fill="#374151">opcode = ir[15:12]</text>
+  <g font-size="12" fill="#374151" font-family="Menlo, Courier New, monospace">
+    <text x="535" y="188">0 NOP  1 LOAD</text>
+    <text x="535" y="205">2 STORE 3 ADDI</text>
+    <text x="535" y="222">F HALT</text>
+  </g>
+  <text x="590" y="247" text-anchor="middle" font-size="12" fill="#374151">addr = ir[11:8]</text>
+  <text x="590" y="264" text-anchor="middle" font-size="12" fill="#374151">imm = ir[7:0]</text>
+
+  <!-- IR to Decode -->
+  <line x1="480" y1="259" x2="518" y2="259" stroke="#1f2937" stroke-width="2" marker-end="url(#ah)"/>
+
+  <!-- ACC -->
+  <rect x="520" y="330" width="140" height="58" rx="6" fill="#ffffff" stroke="#b45309" stroke-width="2"/>
+  <text x="590" y="355" text-anchor="middle" font-size="15" font-weight="bold" fill="#b45309">ACC [15:0]</text>
+  <text x="590" y="375" text-anchor="middle" font-size="12" fill="#374151">ADDI / LOAD result</text>
+
+  <!-- halted -->
+  <rect x="340" y="330" width="140" height="58" rx="6" fill="#ffffff" stroke="#1f2937" stroke-width="2"/>
+  <text x="410" y="355" text-anchor="middle" font-size="15" font-weight="bold" fill="#111827">halted</text>
+  <text x="410" y="375" text-anchor="middle" font-size="12" fill="#374151">set by HALT</text>
+
+  <!-- Decode controls ACC and halted -->
+  <line x1="590" y1="290" x2="590" y2="328" stroke="#1f2937" stroke-width="2" marker-end="url(#ah)"/>
+  <polyline points="560,290 560,310 410,310 410,328" fill="none" stroke="#1f2937" stroke-width="2" marker-end="url(#ah)"/>
+
+  <!-- ============ Instruction path (teal) ============ -->
+  <line x1="340" y1="151" x2="214" y2="151" stroke="#0f766e" stroke-width="3" marker-end="url(#ahb)"/>
+  <text x="277" y="140" text-anchor="middle" font-size="12" font-weight="bold" fill="#0f766e">i_addr[3:0]</text>
+  <text x="277" y="172" text-anchor="middle" font-size="12" font-weight="bold" fill="#0f766e">i_req</text>
+  <line x1="214" y1="259" x2="338" y2="259" stroke="#0f766e" stroke-width="3" marker-end="url(#ahb)"/>
+  <text x="277" y="249" text-anchor="middle" font-size="12" font-weight="bold" fill="#0f766e">i_rdata</text>
+  <text x="277" y="280" text-anchor="middle" font-size="12" font-weight="bold" fill="#0f766e">[15:0]</text>
+
+  <!-- ============ Data RAM ============ -->
+  <rect x="790" y="110" width="198" height="270" rx="8" fill="#fffbeb" stroke="#b45309" stroke-width="2.5"/>
+  <text x="889" y="138" text-anchor="middle" font-size="17" font-weight="bold" fill="#b45309">Data RAM</text>
+  <text x="889" y="157" text-anchor="middle" font-size="13" fill="#374151">data_ram (read/write)</text>
+  <text x="889" y="178" text-anchor="middle" font-size="14" font-weight="bold" fill="#111827">16 × 16-bit words</text>
+  <text x="889" y="196" text-anchor="middle" font-size="12" fill="#374151">word index 0–15</text>
+  <text x="889" y="222" text-anchor="middle" font-size="12" fill="#374151">write on rising edge (d_we)</text>
+  <text x="889" y="240" text-anchor="middle" font-size="12" fill="#374151">read is combinational;</text>
+  <text x="889" y="256" text-anchor="middle" font-size="12" fill="#374151">0 when d_re is low</text>
+  <text x="889" y="290" text-anchor="middle" font-size="13" font-family="Menlo, Courier New, monospace" fill="#111827">RAM[3] = 5 after run</text>
+
+  <!-- ============ Data path (amber) ============ -->
+  <line x1="660" y1="170" x2="788" y2="170" stroke="#b45309" stroke-width="3" marker-end="url(#ahr)"/>
+  <text x="725" y="162" text-anchor="middle" font-size="12" font-weight="bold" fill="#b45309">d_re, d_we</text>
+  <line x1="660" y1="247" x2="788" y2="247" stroke="#b45309" stroke-width="3" marker-end="url(#ahr)"/>
+  <text x="725" y="239" text-anchor="middle" font-size="12" font-weight="bold" fill="#b45309">d_addr[3:0]</text>
+  <line x1="660" y1="344" x2="788" y2="344" stroke="#b45309" stroke-width="3" marker-end="url(#ahr)"/>
+  <text x="725" y="336" text-anchor="middle" font-size="12" font-weight="bold" fill="#b45309">d_wdata[15:0]</text>
+  <line x1="788" y1="376" x2="662" y2="376" stroke="#b45309" stroke-width="3" marker-end="url(#ahr)"/>
+  <text x="725" y="397" text-anchor="middle" font-size="12" font-weight="bold" fill="#b45309">d_rdata[15:0]</text>
+
+  <!-- ============ Clock / reset ============ -->
+  <line x1="185" y1="440" x2="889" y2="440" stroke="#6b7280" stroke-width="2" stroke-dasharray="7 5"/>
+  <text x="20" y="445" font-size="13" font-weight="bold" fill="#374151">clk (rising edge), rst</text>
+  <line x1="500" y1="440" x2="500" y2="412" stroke="#6b7280" stroke-width="2" stroke-dasharray="7 5" marker-end="url(#ahg)"/>
+  <line x1="889" y1="440" x2="889" y2="382" stroke="#6b7280" stroke-width="2" stroke-dasharray="7 5" marker-end="url(#ahg)"/>
+  <text x="510" y="458" font-size="12" fill="#374151">PC, IR, ACC, halted update on the rising edge</text>
+  <text x="889" y="458" font-size="12" fill="#374151" text-anchor="middle">RAM write</text>
+
+  <!-- ============ Overlap caption ============ -->
+  <rect x="20" y="480" width="960" height="92" rx="8" fill="#f0fdfa" stroke="#0f766e" stroke-width="1.5"/>
+  <text x="36" y="505" font-size="14" font-weight="bold" fill="#0f766e">Overlap at one rising edge:</text>
+  <text x="36" y="527" font-size="13.5" fill="#111827">Edge 3: IR holds STORE (2300), so d_we = 1 writes ACC = 5 into RAM[3] while i_addr = 2 fetches ROM[2] = 1300 into IR.</text>
+  <text x="36" y="547" font-size="13.5" fill="#111827">Edge 4: IR holds LOAD (1300), so d_re = 1 reads RAM[3] into ACC while i_addr = 3 fetches ROM[3] = 3001.</text>
+  <text x="36" y="565" font-size="13.5" fill="#111827">Each path serves one request per edge, so a fetch and a data access finish together. Final ACC = 6, RAM[3] = 5.</text>
+
+  <!-- ============ Single-port baseline panel ============ -->
+  <rect x="20" y="588" width="960" height="160" rx="8" fill="#f9fafb" stroke="#6b7280" stroke-width="1.5" stroke-dasharray="6 4"/>
+  <text x="36" y="612" font-size="14" font-weight="bold" fill="#374151">Baseline (modelled): one shared memory, one port</text>
+
+  <rect x="40" y="628" width="120" height="44" rx="5" fill="#ffffff" stroke="#1f2937" stroke-width="1.5"/>
+  <text x="100" y="655" text-anchor="middle" font-size="13" font-weight="bold" fill="#111827">Controller</text>
+  <rect x="215" y="628" width="130" height="44" rx="5" fill="#ffffff" stroke="#6b7280" stroke-width="1.5"/>
+  <text x="280" y="647" text-anchor="middle" font-size="13" font-weight="bold" fill="#111827">Arbiter</text>
+  <text x="280" y="663" text-anchor="middle" font-size="11" fill="#374151">data first, then fetch</text>
+  <rect x="400" y="620" width="160" height="60" rx="5" fill="#ffffff" stroke="#6b7280" stroke-width="1.5"/>
+  <text x="480" y="642" text-anchor="middle" font-size="13" font-weight="bold" fill="#111827">Unified memory</text>
+  <text x="480" y="659" text-anchor="middle" font-size="11" fill="#374151">32 words: code 0–15,</text>
+  <text x="480" y="673" text-anchor="middle" font-size="11" fill="#374151">data 16–31</text>
+  <line x1="160" y1="650" x2="213" y2="650" stroke="#1f2937" stroke-width="2" marker-end="url(#ah)"/>
+  <text x="187" y="642" text-anchor="middle" font-size="11" fill="#374151">2 req</text>
+  <line x1="345" y1="650" x2="398" y2="650" stroke="#1f2937" stroke-width="2" marker-end="url(#ah)"/>
+  <text x="372" y="642" text-anchor="middle" font-size="11" fill="#374151">1 port</text>
+
+  <g font-size="12.5" fill="#111827">
+    <text x="585" y="636">Demo trace: 5 fetches + 2 data operations = 7 transfers</text>
+    <text x="585" y="657">Split paths: 5 memory-service cycles (7/5 = 1.40 per cycle)</text>
+    <text x="585" y="678">One shared port: 7 cycles (edges 3 and 4 each add 1)</text>
+  </g>
+  <text x="40" y="706" font-size="12" fill="#374151">Source: docs/baseline.md (trace replay of baseline/harvard_trace.csv). No extra arbitration delay or wait states are modelled.</text>
+  <text x="40" y="726" font-size="12" fill="#374151">The +2 cycles describe this five-instruction workload and this port model only, not a measured single-port CPU.</text>
+</svg>
