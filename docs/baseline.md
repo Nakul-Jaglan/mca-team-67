@@ -44,8 +44,10 @@ On edges 3 and 4 the Harvard design serves a fetch and a data access together. O
 
 ## Evidence status
 
-- The trace captured from `rtl/controller.v` and `rtl/harvard_top.v` matches the expected trace in [the interface](interface.md). There is a fetch + STORE on edge 3, a fetch + LOAD on edge 4, final ACC = 6 and RAM[3] = 5.
-- **Pending:** The committed trace was captured with stand-in ROM and RAM models written to the interface. Neelanshu's `rtl/instr_rom.v` and `rtl/data_ram.v` were not merged yet. After the memories merge, regenerate the trace and check it against Puneet's testbench trace. If the CSV does not change, this result stands as measured on the integrated build.
+- **Confirmed on the integrated build.** The trace was regenerated with the team's real `rtl/instr_rom.v` and `rtl/data_ram.v` on `main`, together with `rtl/controller.v` and `rtl/harvard_top.v`. The new CSV is byte-for-byte identical to the committed [`baseline/harvard_trace.csv`](../baseline/harvard_trace.csv). The trace was first captured with stand-in memories written to the interface. The replay still gives 5 vs 7.
+- The ROM and RAM on Neelanshu's `phase1/neelanshu` branch only add comments. A trace captured with that version is also identical.
+- The trace agrees with Puneet's integrated testbench ([`tb/harvard_tb.v`](../tb/harvard_tb.v), log in [`docs/evidence/simulation_pass.log`](evidence/simulation_pass.log)). That testbench checks a fetch + STORE on edge 3, a fetch + LOAD on edge 4, HALT on edge 6, and final ACC = 6 and RAM[3] = 5.
+- The Harvard counts (5 cycles, 7 transfers) are measured from simulation. The single-port count (7 cycles) is still a modelled replay of that measured trace.
 
 ## Reproduce
 
