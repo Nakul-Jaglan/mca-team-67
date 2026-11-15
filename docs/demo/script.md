@@ -4,10 +4,15 @@ Owner: Pranav. Target length is about 4 minutes, with a hard cap of 5 minutes. R
 
 ## Before recording
 
-- [ ] Pull the integrated commit from `main`. Write its short hash here: `________`.
-- [ ] Run the README compile/sim command once and check that it passes on this commit.
-- [ ] Open these: Sudeshhna's block diagram (`docs/diagrams/`), the waveform with edges 3 and 4 annotated, [docs/baseline.md](../baseline.md) and the GitHub README.
-- [ ] If the waveform viewer fails, use the saved annotated waveform image and the matching test log instead.
+- [ ] Pull the integrated commit from `main` (`git pull`). Write its short hash here: `________`.
+- [ ] Run `./scripts/sim.sh` once and check that it ends with `ALL SIMULATIONS PASSED CLEANLY!`.
+- [ ] Open these files:
+  - Block diagram: [`docs/diagrams/harvard-architecture.png`](../diagrams/harvard-architecture.png)
+  - Program: [`rtl/instr_rom.v`](../../rtl/instr_rom.v)
+  - Annotated waveform: [`docs/evidence/harvard-waveform.png`](../evidence/harvard-waveform.png)
+  - Comparison: [docs/baseline.md](../baseline.md)
+  - The GitHub README
+- [ ] GTKWave isn't needed. Puneet's annotated waveform image and [`docs/evidence/simulation_pass.log`](../evidence/simulation_pass.log) come from the same build. To open the live waveform instead, run `brew install --cask gtkwave` and then `./scripts/sim.sh --wave`.
 - [ ] Use the same recorder and microphone settings as the 10-second test clip (see [practice-table.md](practice-table.md)).
 - [ ] Get confirmed contribution lines from each member.
 
@@ -31,11 +36,9 @@ Owner: Pranav. Target length is about 4 minutes, with a hard cap of 5 minutes. R
 
 > "The program is five words long. Add 5, store it in data word 3, load it back, add 1, and halt. I'll compile and run the testbench now."
 
-Run the agreed command from the README (`iverilog ... && vvp build/harvard.vvp`). Point to the passing output.
+Run `./scripts/sim.sh` (Puneet's runner, which runs all three testbenches). Point to the edge table and `PASS: All 7 cycle-by-cycle assertions verified successfully!`.
 
 > "The test passes. The processor halted with the accumulator at 6, and data RAM word 3 still holds 5."
-
-*(Say "ACC = 6" only if it shows in the passing output for this commit.)*
 
 ### 1:35–2:45 · Waveform
 
@@ -55,9 +58,7 @@ Run the agreed command from the README (`iverilog ... && vvp build/harvard.vvp`)
 
 > "To show what the separate paths are worth, I replayed this exact request trace on a model with one shared memory port. Code goes in indices 0 to 15 and data in 16 to 31, with one transfer per cycle. When a fetch and a data access arrive together, the data access goes first and the fetch waits a cycle."
 
-> "The Harvard design serves all seven transfers in 5 cycles. The single port needs 7. That's two extra cycles: 1.4 transfers per cycle against 1.0. This is a modelled estimate from the measured trace, not a runtime measurement of a second CPU."
-
-*(If the trace on the integrated build is still pending, say so here.)*
+> "The Harvard design serves all seven transfers in 5 cycles, measured in simulation. The single port needs 7. That's two extra cycles: 1.4 transfers per cycle against 1.0. The single-port number is a modelled replay of the measured trace, not a runtime measurement of a second CPU."
 
 ### 3:25–4:10 · Repository and contributions
 
@@ -65,9 +66,9 @@ Run the agreed command from the README (`iverilog ... && vvp build/harvard.vvp`)
 
 > "Everything is in our GitHub repository: the report, the Verilog code, the testbench, the waveform evidence and this comparison."
 
-Read one confirmed line for each person. Replace the draft lines below with the confirmed contribution notes before recording.
+Read one line for each person. These follow the Individual Contributions section of the report and the work on GitHub.
 
-> "Nakul built the controller, the top level and the interface, and integrated everything. Neelanshu built the instruction ROM and data RAM and ran synthesis. Puneet wrote the testbench and captured the waveforms. Sudeshhna wrote the report and drew the block diagram. I made the shared-port comparison and this video. Thanks for watching."
+> "Nakul designed the controller, the top-level wiring and the interface, and integrated everything. Neelanshu built the instruction ROM and data RAM, the memory tests and the synthesis evidence. Puneet wrote the integrated and directed testbenches and the simulation runner, and produced the waveform evidence. Sudeshhna wrote the IEEE report and drew the block diagram. I built the shared-port comparison and made this video. Thanks for watching."
 
 ## After recording
 
