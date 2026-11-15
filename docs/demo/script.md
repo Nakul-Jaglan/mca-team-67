@@ -4,7 +4,7 @@ Owner: Pranav. Target length is about 4 minutes, with a hard cap of 5 minutes. R
 
 ## Before recording
 
-- [ ] Pull the integrated commit from `main` (`git pull`). Write its short hash here: `________`.
+- [ ] Pull the integrated commit from `main` (`git pull`). Recorded from `afbdfd9`.
 - [ ] Run `./scripts/sim.sh` once and check that it ends with `ALL SIMULATIONS PASSED CLEANLY!`.
 - [ ] Open these files:
   - Block diagram: [`docs/diagrams/harvard-architecture.png`](../diagrams/harvard-architecture.png)
