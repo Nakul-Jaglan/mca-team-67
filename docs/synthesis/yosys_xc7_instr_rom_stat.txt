@@ -1,0 +1,19 @@
+
+3. Printing statistics.
+
+=== instr_rom ===
+
+        +----------Local Count, excluding submodules.
+        | 
+        9 wires
+       30 wire bits
+        2 public wires
+       20 public wire bits
+        2 ports
+       20 port bits
+       26 cells
+        4   IBUF
+        1   LUT2
+        5   LUT4
+       16   OBUF
+

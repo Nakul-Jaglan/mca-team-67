@@ -1,0 +1,25 @@
+8. Executing LTP pass (find longest path).
+
+Longest topological path in harvard_top (length=20):
+    0: \control.acc [0]
+    1: $abc$1107$new_n67 (via $abc$1107$blif$1107$9)
+    2: $abc$1107$new_n68 (via $abc$1107$blif$1107$10)
+    3: $abc$1107$new_n70 (via $abc$1107$blif$1107$12)
+    4: $abc$1107$new_n71 (via $abc$1107$blif$1107$13)
+    5: $abc$1107$new_n72 (via $abc$1107$blif$1107$14)
+    6: $abc$1107$new_n73 (via $abc$1107$blif$1107$15)
+    7: $abc$1107$new_n74 (via $abc$1107$blif$1107$16)
+    8: $abc$1107$new_n75 (via $abc$1107$blif$1107$17)
+    9: $abc$1107$new_n76 (via $abc$1107$blif$1107$18)
+   10: $abc$1107$new_n77 (via $abc$1107$blif$1107$19)
+   11: $abc$1107$new_n78 (via $abc$1107$blif$1107$20)
+   12: $abc$1107$new_n79 (via $abc$1107$blif$1107$21)
+   13: $abc$1107$new_n80 (via $abc$1107$blif$1107$22)
+   14: $abc$1107$new_n81 (via $abc$1107$blif$1107$23)
+   15: $abc$1107$new_n82 (via $abc$1107$blif$1107$24)
+   16: $abc$1107$new_n83 (via $abc$1107$blif$1107$25)
+   17: $abc$1107$new_n85 (via $abc$1107$blif$1107$27)
+   18: $abc$1107$new_n86 (via $abc$1107$blif$1107$28)
+   19: $abc$1107$new_n87 (via $abc$1107$blif$1107$29)
+   20: $abc$1107$flatten\control.$procmux$66_Y[15] (via $abc$1107$blif$1107$30)
+   ff: \control.acc [15] (via $auto$ff.cc:337:slice$352)
