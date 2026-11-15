@@ -1,5 +1,9 @@
 `timescale 1ns/1ps
 
+// Instruction ROM: 16 x 16-bit words, combinational read, 4-bit word address.
+// Words 0-4 hold the demo program; every other index returns HALT (F000).
+// Owner: Neelanshu (memory RTL and synthesis)
+
 module instr_rom (
     input  wire [3:0]  i_addr,
     output reg  [15:0] i_rdata
