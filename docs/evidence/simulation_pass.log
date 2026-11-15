@@ -1,0 +1,60 @@
+==================================================================
+ MCA Project 9 (Team 67): Harvard Memory Hierarchy Simulation
+ Owner: Puneet | Verification Suite
+==================================================================
+
+[1/3] Compiling and running Integrated System Testbench (harvard_tb)...
+VCD info: dumpfile build/harvard.vcd opened for output.
+
+==========================================================================
+   MCA PROJECT 9 (TEAM 67): HARVARD ARCHITECTURE VERIFICATION TRACE       
+==========================================================================
+Edge | Pre-Edge Requests (Fetch, Data)      | Post-Edge State (ACC, Halted)
+-----+--------------------------------------+------------------------------
+  1  | Fetch ROM[0]=3005, Data idle        | IR=3005, ACC=0, halted=0
+  2  | Fetch ROM[1]=2300, Data idle        | IR=2300, ACC=5, halted=0 (ADDI 5 executed)
+  3  | [OVERLAP] Fetch ROM[2] + STORE RAM[3] | IR=1300, RAM[3]=5, ACC=5
+  4  | [OVERLAP] Fetch ROM[3] + LOAD RAM[3]  | IR=3001, ACC=5, halted=0
+  5  | Fetch ROM[4]=F000, Data idle        | IR=F000, ACC=6, halted=0 (ADDI 1 executed)
+  6  | Requests IDLE (Fetch suppressed)    | halted=1, ACC=6 (Execution halted)
+  7  | Requests IDLE (Quiescent state)     | halted=1, ACC=6 holds steady
+==========================================================================
+PASS: All 7 cycle-by-cycle assertions verified successfully!
+  - 5 Instruction fetches completed
+  - 2 Data RAM accesses completed (STORE @ Edge 3, LOAD @ Edge 4)
+  - 2 Overlap edges confirmed (concurrent instruction & data transfers)
+  - Final Architectural Registers: ACC = 6, RAM[3] = 5, halted = 1
+==========================================================================
+
+tb/harvard_tb.v:211: $finish called at 86000 (1ps)
+
+[2/3] Compiling and running Directed LOAD Testbench (directed_load_tb)...
+VCD info: dumpfile build/directed_load.vcd opened for output.
+
+==========================================================================
+   MCA PROJECT 9 (TEAM 67): DIRECTED LOAD VERIFICATION TEST              
+==========================================================================
+Edge 1: Fetched ADDI 5. ACC=0
+Edge 2: Executed ADDI 5. ACC=5
+Edge 3: Executed STORE. RAM[3]=5, ACC=5
+Edge 4: Executed ADDI 2. ACC=7 (CONFIRMED ACC != 5 BEFORE LOAD)
+Edge 5: Executed LOAD RAM[3]. ACC successfully overwritten from 7 to 5!
+Edge 6: Halted=1, ACC=5
+==========================================================================
+PASS: Directed LOAD test verified successfully!
+  - ACC properly changed: 0 -> 5 (ADDI 5) -> 7 (ADDI 2) -> 5 (LOAD)
+  - Missing LOAD bug is guaranteed to be detected.
+==========================================================================
+
+tb/directed_load_tb.v:145: $finish called at 76000 (1ps)
+
+[3/3] Compiling and running Isolated Memory Testbench (memory_tb)...
+PASS: Isolated memory test (ROM & RAM) completed successfully.
+tb/memory_tb.v:75: $finish called at 19000 (1ps)
+
+==================================================================
+ ALL SIMULATIONS PASSED CLEANLY!
+ Waveform files generated:
+   - build/harvard.vcd
+   - build/directed_load.vcd
+==================================================================
