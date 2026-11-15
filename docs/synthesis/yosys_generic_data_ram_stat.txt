@@ -1,0 +1,20 @@
+
+3. Printing statistics.
+
+=== data_ram ===
+
+        +----------Local Count, excluding submodules.
+        | 
+      295 wires
+      568 wire bits
+       22 public wires
+      295 public wire bits
+        6 ports
+       39 port bits
+      545 cells
+        4   $_ANDNOT_
+       41   $_AND_
+      256   $_DFFE_PP_
+      240   $_MUX_
+        4   $_NOT_
+

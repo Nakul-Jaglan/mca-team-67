@@ -1,0 +1,106 @@
+
+6. Printing statistics.
+
+=== controller ===
+
+        +----------Local Count, excluding submodules.
+        | 
+       84 wires
+      207 wire bits
+       15 public wires
+       99 public wire bits
+       12 ports
+       78 port bits
+       76 cells
+        5   CARRY4
+       38   FDRE
+        1   INV
+       12   LUT2
+       16   LUT3
+        2   LUT4
+        2   LUT5
+
+=== data_ram ===
+
+        +----------Local Count, excluding submodules.
+        | 
+       22 wires
+       71 wire bits
+        6 public wires
+       39 public wire bits
+        6 ports
+       39 port bits
+       18 cells
+       16   LUT2
+        2   RAM32M
+
+=== harvard_top ===
+
+        +----------Local Count, excluding submodules.
+        | 
+       32 wires
+       98 wire bits
+       12 public wires
+       78 public wire bits
+        4 ports
+       19 port bits
+       20 cells
+        1   BUFG
+        2   IBUF
+       17   OBUF
+        3 submodules
+        1   controller
+        1   data_ram
+        1   instr_rom
+
+=== instr_rom ===
+
+        +----------Local Count, excluding submodules.
+        | 
+        2 wires
+       20 wire bits
+        2 public wires
+       20 public wire bits
+        2 ports
+       20 port bits
+        6 cells
+        1   LUT2
+        5   LUT4
+
+=== design hierarchy ===
+
+        +----------Count including submodules.
+        | 
+      120 harvard_top
+       76 controller
+       18 data_ram
+        6 instr_rom
+
+        +----------Count including submodules.
+        | 
+      140 wires
+      396 wire bits
+       35 public wires
+      236 public wire bits
+       24 ports
+      156 port bits
+        - memories
+        - memory bits
+        - processes
+      120 cells
+        1   BUFG
+        5   CARRY4
+       38   FDRE
+        2   IBUF
+        1   INV
+       29   LUT2
+       16   LUT3
+        7   LUT4
+        2   LUT5
+       17   OBUF
+        2   RAM32M
+        3 submodules
+        1   controller
+        1   data_ram
+        1   instr_rom
+
