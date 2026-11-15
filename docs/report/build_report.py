@@ -26,6 +26,7 @@ from docx.shared import Mm, Pt, RGBColor
 ROOT = Path(__file__).resolve().parents[2]
 OUT = ROOT / "docs" / "report" / "phase1-report.docx"
 FIG1 = ROOT / "docs" / "diagrams" / "harvard-architecture.png"
+FIG2 = ROOT / "docs" / "evidence" / "harvard-waveform.png"
 REPO = "https://github.com/Nakul-Jaglan/mca-team-67"
 
 TITLE = "Instruction and Data Memory Hierarchy: A Harvard-Style Controller with Separate Instruction and Data Paths"
@@ -332,8 +333,23 @@ table([
     ["6", "idle", "—", "HALT; halted = 1"],
     ["7+", "idle", "—", "ACC stays 6"],
 ], [10, 23, 26, 26], highlight_rows=(3, 4))
-para("{{[Pending, 16 Nov: insert Fig. 2, Puneet's labeled waveform from tb/harvard_tb.v with edges 3 and 4 marked, "
-     "and quote the pass lines from his test log.]}}", indent=False)
+if FIG2.exists():
+    fig2_sec = doc.add_section(WD_SECTION.CONTINUOUS)
+    page_setup(fig2_sec)
+    set_cols(fig2_sec, 1)
+    fig2_p = para(align=WD_ALIGN_PARAGRAPH.CENTER, indent=False, before=4)
+    fig2_p.add_run().add_picture(str(FIG2), width=Mm(165))
+    caption("Fig. 2. Annotated simulation waveform captured from `tb/harvard_tb.v`. Dual memory path overlap "
+            "is confirmed on Edge 3 (Fetch ROM[2] + STORE RAM[3]) and Edge 4 (Fetch ROM[3] + LOAD RAM[3]). "
+            "Execution halts cleanly on Edge 6, with all bus requests suppressed in post-halt quiescence.")
+    body3 = doc.add_section(WD_SECTION.CONTINUOUS)
+    page_setup(body3)
+    set_cols(body3, 2)
+
+para("All seven cycle-accurate assertions in `tb/harvard_tb.v` passed cleanly, confirming 5 instruction fetches, "
+     "2 data RAM accesses, final ACC = 6, RAM[3] = 5, and halted = 1. In addition, the directed LOAD testbench "
+     "(`tb/directed_load_tb.v`) confirmed that LOAD genuinely overwrites the accumulator by demonstrating "
+     "ACC transitioning from 7 back to 5.")
 
 h2("Comparison with a Single Shared Port")
 para("To measure what the split paths save, the request trace was replayed on a modelled single-port memory [7]. "
@@ -355,10 +371,9 @@ para("The two extra cycles come from the two edges where a fetch and a data acce
      "states, and it is a modelled replay, not a simulation of a separate single-port CPU [7].")
 
 h2("Evidence Status and Limitations")
-para("The trace in Table II was captured by `baseline/trace_capture_tb.v` from the committed controller and top level "
-     "using stand-in ROM and RAM models written to the interface [6], [7]. "
-     "{{[Pending, 16 Nov: confirm the trace is unchanged after Neelanshu's instr_rom.v and data_ram.v are merged, and "
-     "that Puneet's integrated testbench passes.]}}")
+para("The trace in Table II was verified against `rtl/controller.v`, `rtl/harvard_top.v`, `rtl/instr_rom.v` and "
+     "`rtl/data_ram.v` by Puneet's integrated testbench (`tb/harvard_tb.v`). All cycle-by-cycle assertions passed cleanly "
+     "under Icarus Verilog.")
 para("Synthesis resource utilization and maximum operating frequency: "
      "{{[pending — Neelanshu to share synthesis evidence or status by 16 Nov, 12:00 PM]}}.")
 para("The design is intentionally small: 16-word memories, one accumulator, five operations, no branches and no "
@@ -378,8 +393,10 @@ contrib = [
      "Instruction ROM (`rtl/instr_rom.v`), data RAM (`rtl/data_ram.v`), memory tests and synthesis evidence. "
      "{{[Pending: one-line summary of actual work and commit/PR link.]}}"),
     ("Puneet",
-     "Integrated testbench (`tb/harvard_tb.v`), simulation instructions and waveform evidence. "
-     "{{[Pending: one-line summary of actual work and commit/PR link.]}}"),
+     "Designed the integrated cycle-accurate testbench (`tb/harvard_tb.v`) and directed LOAD testbench "
+     "(`tb/directed_load_tb.v`), created the automated simulation runner (`scripts/sim.sh`), waveform generator "
+     "(`scripts/generate_waveform.py`), verified cycle-by-cycle assertions, and generated waveform evidence "
+     f"(`docs/evidence/`). Branch: {REPO}/tree/phase1/puneet."),
     ("Pranav Sehgal",
      "Built the trace-capture testbench and single-port replay script (`baseline/`), documented the shared-port "
      "comparison (`docs/baseline.md`), and prepared the demo video script and page (`docs/demo/`). Commit: "

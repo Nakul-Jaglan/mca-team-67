@@ -1,0 +1,13 @@
+# Build output directory
+build/
+*.vvp
+*.vcd
+
+# OS generated files
+.DS_Store
+*.swp
+*~
+
+# Python cache
+__pycache__/
+*.pyc
