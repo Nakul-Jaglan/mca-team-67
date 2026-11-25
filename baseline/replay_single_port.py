@@ -95,18 +95,18 @@ def main(argv):
     rows, harvard, shared, transfers = replay(load_batches(path))
 
     if markdown:
-        print("| Edge | Request batch | Harvard service cycle | Single-port replay cycle (shared index) |")
+        print("| Edge | Request batch | Harvard service cycle (simulation) | Single-port cycle (modelled replay, shared index) |")
         print("| --- | --- | --- | --- |")
         for edge, batch, h, s in rows:
             print(f"| {edge} | {batch} | {h} | {s} |")
     else:
-        print(f"{'Edge':<5} {'Request batch':<32} {'Harvard':<10} Single-port replay")
+        print(f"{'Edge':<5} {'Request batch':<32} {'Harvard':<10} Single port (modelled replay)")
         for edge, batch, h, s in rows:
             print(f"{edge:<5} {batch:<32} {h:<10} {s}")
 
     print()
     print(f"Transfers: {transfers}")
-    print(f"Memory-service cycles: Harvard {harvard}, single port {shared} (modelled)")
+    print(f"Memory-service cycles: Harvard {harvard} (simulation), single port {shared} (modelled replay)")
     print(f"Extra cycles with one port: {shared - harvard}")
     rh, rs = Fraction(transfers, harvard), Fraction(transfers, shared)
     print(f"Service rate: Harvard {transfers}/{harvard} = {float(rh):.2f}, "
