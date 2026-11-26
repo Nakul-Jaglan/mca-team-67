@@ -1,8 +1,9 @@
 # Verification and Waveform Evidence
 
 **Owner:** Puneet (Verification Lead)  
-**Project:** MCA Project 9 — Instruction and Data Memory Hierarchy (Phase I)  
-**Deliverables:** Integrated Testbench (`tb/harvard_tb.v`), Directed LOAD Testbench (`tb/directed_load_tb.v`), Automated Simulation Runner (`scripts/sim.sh`), Waveform Generator (`scripts/generate_waveform.py`), and Simulation Evidence.
+**Project:** MCA Project 9 — Instruction and Data Memory Hierarchy (Phase I & Phase II)  
+**Verified Revision:** `c181e94` (Icarus Verilog 13.0)  
+**Deliverables:** Integrated Testbench (`tb/harvard_tb.v`), Directed LOAD Testbench (`tb/directed_load_tb.v`), Isolated Memory Testbench (`tb/memory_tb.v`), Automated Simulation Runner (`scripts/sim.sh`), Waveform Generator (`scripts/generate_waveform.py`), and Simulation Evidence.
 
 ---
 
@@ -16,7 +17,7 @@ The verification suite verifies the Harvard memory hierarchy prototype implement
 3. Execution halts cleanly on Edge 6, and all memory request lines (`i_req`, `d_re`, `d_we`) remain suppressed in post-halt quiescence (Edge 7).
 4. The directed LOAD testbench proves that the LOAD instruction genuinely reads data memory into the accumulator by setting ACC to 7 before LOAD and asserting that LOAD restores ACC to 5.
 
-All 7 cycle-accurate assertions pass with zero warnings under Icarus Verilog (`iverilog -g2012 -Wall`).
+All 7 cycle-accurate assertions in `tb/harvard_tb.v`, the directed LOAD test in `tb/directed_load_tb.v`, and all 24 isolated ROM/RAM checks in `tb/memory_tb.v` pass with zero warnings under Icarus Verilog (`iverilog -g2012 -Wall`).
 
 ---
 
@@ -49,6 +50,8 @@ The table below records the exact cycle-accurate signals sampled before and afte
 The annotated waveform diagram below captures all 12 key architecture signals across the 7 post-reset clock edges, highlighting the dual-memory overlap points on Edges 3 and 4:
 
 ![Harvard Architecture Waveform](harvard-waveform.png)
+
+*Report Caption (10 ns simulation clock):* Annotated simulation waveform of `harvard_top` (`10 ns` simulation clock) from `tb/harvard_tb.v` at commit `c181e94`. Edge 3 (`45 ns`) shows concurrent instruction fetch (`i_req = 1`, `i_addr = 2`) and data write (`d_we = 1`, `d_addr = 3`, `d_wdata = 5`). Edge 4 (`55 ns`) shows concurrent instruction fetch (`i_req = 1`, `i_addr = 3`) and data read (`d_re = 1`, `d_addr = 3`, `d_rdata = 5`). At Edge 6 (`75 ns`), requests are low going into the edge, `halted` rises to `1`, and `ACC` holds `6`.
 
 *Raw simulation waveform file:* `build/harvard.vcd`
 
