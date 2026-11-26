@@ -125,11 +125,11 @@ edges = [
 ]
 
 for t_edge, label in edges:
-    if t_edge in [45, 55]:
-        # Overlap edges highlighted
-        color = '#d9534f' if t_edge == 45 else '#0275d8'
+    if t_edge in [45, 55, 75]:
+        # Key edges highlighted: Edge 3 (Overlap 1), Edge 4 (Overlap 2), Edge 6 (Halt)
+        color = '#d9534f' if t_edge == 45 else ('#0275d8' if t_edge == 55 else '#2e7d32')
         ax.axvline(x=t_edge, color=color, linestyle='--', linewidth=2.0, alpha=0.85, zorder=2)
-        ax.text(t_edge, total_height - 0.2, label, color=color, fontsize=9.5, fontweight='bold',
+        ax.text(t_edge, total_height - 0.2, label, color=color, fontsize=9.0, fontweight='bold',
                 ha='center', va='bottom', bbox=dict(boxstyle='round,pad=0.2', facecolor='white', edgecolor=color, alpha=0.9))
     else:
         ax.axvline(x=t_edge, color='#888888', linestyle=':', linewidth=1.0, alpha=0.6, zorder=1)
@@ -232,17 +232,17 @@ ax.set_title("MCA Project 9 (Team 67) — Integrated Harvard Architecture Simula
 
 # Add legend box for overlap explanation
 legend_text = (
-    "Waveform Verification Summary (Puneet / Verification Lead):\n"
+    "Waveform Verification Summary (10 ns simulation clock / 100 MHz | Puneet):\n"
     "• Edge 1 (25 ns): Fetch ROM[0] = 0x3005 (ADDI 5), Data Bus Idle.\n"
     "• Edge 2 (35 ns): Fetch ROM[1] = 0x2300 (STORE), ACC becomes 5.\n"
-    "• Edge 3 (45 ns) [OVERLAP]: Concurrent Fetch ROM[2]=0x1300 AND Data Write RAM[3]=5.\n"
-    "• Edge 4 (55 ns) [OVERLAP]: Concurrent Fetch ROM[3]=0x3001 AND Data Read RAM[3]=5.\n"
+    "• Edge 3 (45 ns) [OVERLAP]: Concurrent Fetch ROM[2]=0x1300 (i_req=1, i_addr=2) AND STORE RAM[3]=5 (d_we=1, d_addr=3, d_wdata=5).\n"
+    "• Edge 4 (55 ns) [OVERLAP]: Concurrent Fetch ROM[3]=0x3001 (i_req=1, i_addr=3) AND LOAD RAM[3]=5 (d_re=1, d_addr=3, d_rdata=5).\n"
     "• Edge 5 (65 ns): Fetch ROM[4] = 0xF000 (HALT), ACC becomes 6.\n"
-    "• Edge 6 (75 ns): Execution Halts (halted = 1), Bus Requests Cease (i_req=0, d_re=0, d_we=0).\n"
+    "• Edge 6 (75 ns) [HALT]: Requests low going into edge (i_req=0, d_re=0, d_we=0); halted rises to 1, ACC holds 6.\n"
     "• Final Result: ACC = 6, RAM[3] = 5, Total Memory Cycles = 5 (vs 7 single-port baseline)."
 )
 props = dict(boxstyle='round,pad=0.5', facecolor='#f8f9fa', edgecolor='#cccccc', alpha=0.95)
-ax.text(0.01, -0.06, legend_text, transform=ax.transAxes, fontsize=8,
+ax.text(0.01, -0.09, legend_text, transform=ax.transAxes, fontsize=7.8,
         verticalalignment='top', bbox=props, family='monospace')
 
 OUT_PNG.parent.mkdir(parents=True, exist_ok=True)

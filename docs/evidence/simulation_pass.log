@@ -49,8 +49,37 @@ PASS: Directed LOAD test verified successfully!
 tb/directed_load_tb.v:145: $finish called at 76000 (1ps)
 
 [3/3] Compiling and running Isolated Memory Testbench (memory_tb)...
-PASS: Isolated memory test (ROM & RAM) completed successfully.
-tb/memory_tb.v:75: $finish called at 19000 (1ps)
+ROM contents
+  ok  ROM[0] ADDI 5 = 3005
+  ok  ROM[1] STORE 3 = 2300
+  ok  ROM[2] LOAD 3 = 1300
+  ok  ROM[3] ADDI 1 = 3001
+  ok  ROM[4] HALT = f000
+  ok  ROM default HALT = f000
+  ok  ROM default HALT = f000
+  ok  ROM default HALT = f000
+  ok  ROM default HALT = f000
+  ok  ROM default HALT = f000
+  ok  ROM default HALT = f000
+  ok  ROM default HALT = f000
+  ok  ROM default HALT = f000
+  ok  ROM default HALT = f000
+  ok  ROM default HALT = f000
+  ok  ROM default HALT = f000
+RAM write and read
+  ok  RAM read with d_re=0 = 0000
+  ok  RAM[3] after write = 0005
+Write disable keeps the stored word
+  ok  RAM[3] after edge with d_we=0 = 0005
+ROM and RAM are separate at index 3
+  ok  ROM[3] after RAM write = 3001
+  ok  RAM[3] at same index = 0005
+Second RAM index
+  ok  RAM[9] after write = 00a5
+  ok  RAM[3] unchanged by RAM[9] write = 0005
+  ok  RAM read disabled again = 0000
+PASS: memory_tb, 24 checks (ROM and RAM)
+tb/memory_tb.v:94: $finish called at 49000 (1ps)
 
 ==================================================================
  ALL SIMULATIONS PASSED CLEANLY!
